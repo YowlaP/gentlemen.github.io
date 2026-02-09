@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Une question très sérieuse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a0b10;
+            --gold-gradient: linear-gradient(45deg, #FFD700, #FDB931, #FFD700, #C59708);
+            --text-color: #ffdde1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- FOND ANIMÉ --- */
+        .bg-heart {
+            position: fixed;
+            top: -10vh;
+            color: rgba(220, 20, 60, 0.15);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- INTRO SCROLL --- */
+        .scroll-intro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, var(--bg-color) 100%);
+        }
+
+        .scroll-text {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .scroll-icon {
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        /* --- LA DEMANDE --- */
+        .final-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            padding-top: 50px;
+            /* Très grand padding en bas pour que le bouton puisse descendre loin */
+            padding-bottom: 800px; 
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .visible {
+            opacity: 1;
+        }
+
+        /* --- TYPOGRAPHIE OR --- */
+        .gold-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            line-height: 1.2;
+            background: var(--gold-gradient);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
+            margin: 0 20px 20px 20px;
+            filter: drop-shadow(0px 0px 5px rgba(255, 215, 0, 0.4));
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            margin-bottom: 50px;
+            color: #aaa;
+            font-style: italic;
+            min-height: 30px;
+            padding: 0 20px;
+        }
+
+        /* --- CONTAINER DU BOUTON --- */
+        /* Important pour le positionnement relatif du bouton */
+        .game-area {
+            position: relative;
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* --- LE BOUTON --- */
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Transition rapide */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            -webkit-tap-highlight-color: transparent;
+            position: relative; /* Permet le déplacement avec top/left */
+            z-index: 20;
+            max-width: 80%;
+        }
+
+        #runaway-btn {
+            background: white;
+            color: #1a0b10;
+        }
+
+        /* --- BOUTON FINAL --- */
+        #final-btn-link {
+            display: none; /* Caché au début */
+            text-decoration: none;
+            width: 100%;
+            justify-content: center;
+            position: fixed; /* On le fixe pour qu'il soit immanquable à la fin */
+            bottom: 50px;
+            left: 0;
+            z-index: 100;
+            animation: popIn 0.5s ease;
+        }
+
+        #final-btn {
+            background: linear-gradient(45deg, #d62976, #ff4d6d);
+            color: white;
+            font-size: 1rem;
+            padding: 20px 30px;
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes shine { to { background-position: 200% center; } }
+        @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(10px);} }
+        @keyframes popIn { from {transform: scale(0);} to {transform: scale(1);} }
+
+    </style>
+</head>
+<body>
+
+    <div id="hearts-bg"></div>
+
+    <div class="scroll-intro">
+        <h2 style="font-family:'Great Vibes'; font-size: 3rem; color:#ff4d6d">Hello toi</h2>
+        <div class="scroll-text">Descends, j'ai un truc important<br>à te demander...</div>
+        <div class="scroll-icon">👇</div>
+    </div>
+
+    <div style="height: 50vh;"></div>
+
+    <div class="final-section" id="finalSection">
+        
+        <div class="gold-text">Veux-tu être<br>ma Valentine ?</div>
+        <p class="subtitle" id="subtitle-text">Essaie de cliquer sur OUI si tu y arrives... 😏</p>
+
+        <div class="game-area">
+            <button id="runaway-btn" class="btn">OUI</button>
+        </div>
+
+    </div>
+
+    <a id="final-btn-link" href="#">
+        <button id="final-btn" class="btn">Alors ? Oui ou non ?? 🫶🏾</button>
+    </a>
+
+    <script>
+        // --- CONFIGURATION ---
+        const tonNumero = "0774455411"; // REMPLACE ICI
+        const messageFinal = "Biensur que oui je veux être ta valentine monsieur ❤️ (Tu m'as rendue folle avec ce bouton !)";
+
+        // --- VARIABLES ---
+        const btn = document.getElementById('runaway-btn');
+        const finalLink = document.getElementById('final-btn-link');
+        const subtitle = document.getElementById('subtitle-text');
+        const heartContainer = document.getElementById('hearts-bg');
+        
+        let attempts = 0;
+        const maxAttempts = 20; // Nombre d'essais avant d'abandonner
+        let isGameOver = false;
+
+        // Phrases taquines
+        const phrases = [
+            "Trop lente !", 
+            "Oups !", 
+            "Presque...", 
+            "À côté !", 
+            "Tu le fais exprès ?",
+            "Tu veux sérieusement pas l'être ???", // La phrase demandée
+            "Arrête de trembler !",
+            "Je suis rapide hein ?",
+            "Allez courage...",
+            "T'es nulle à ce jeu 😂",
+            "Tu m'attraperas pas !",
+            "Encore un effort",
+            "Plus bas !",
+            "Toujours plus bas...",
+            "T'es obstinée j'aime ça.",
+            "Ça devient gênant là...",
+            "Je commence à fatiguer.",
+            "Ok, t'as gagné...",
+            "Promis j'arrête de bouger.",
+            "CLIQUE MAINTENANT !"
+        ];
+
+        // --- CONFIG SMS ---
+        const ua = navigator.userAgent.toLowerCase();
+        const isiOS = /iphone|ipad|ipod/.test(ua);
+        finalLink.href = `sms:${tonNumero}${isiOS ? '&' : '?'}body=${encodeURIComponent(messageFinal)}`;
+
+        // --- GENERATION CŒURS BACKGROUND ---
+        for (let i = 0; i < 40; i++) {
+            const h = document.createElement('div');
+            h.classList.add('bg-heart');
+            h.innerText = Math.random() > 0.5 ? '❤️' : '✨';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.fontSize = Math.random() * 2 + 1 + 'rem';
+            h.style.top = Math.random() * 200 + 'vh';
+            heartContainer.appendChild(h);
+        }
+
+        // --- LOGIQUE DE FUITE ---
+        function moveButton(e) {
+            if (isGameOver) return; // Si le jeu est fini, on ne fait rien
+
+            // Sur mobile, on évite que le tap "clique" vraiment sur le bouton
+            if(e.type === 'touchstart') e.preventDefault();
+
+            attempts++;
+
+            if (attempts >= maxAttempts) {
+                endGame();
+            } else {
+                // Changer le texte
+                if (attempts < phrases.length) {
+                    btn.innerText = phrases[attempts];
+                    // Change couleur texte pour dramatiser
+                    if(attempts > 5) btn.style.color = "#d62976";
+                }
+
+                // Changer le sous-titre à des moments clés
+                if(attempts === 6) subtitle.innerText = "Wow, quel refus catégorique...";
+                if(attempts === 15) subtitle.innerText = "Allez, descends, je suis fatigué de courir.";
+
+                // CALCUL DE LA NOUVELLE POSITION
+                // On déplace le bouton plus bas (Y) et aléatoirement en X
+                // On utilise 'transform' pour la fluidité
+                
+                // On le fait descendre progressivement de plus en plus bas (scroll forcé)
+                const verticalOffset = attempts * 50; // Descend de 50px à chaque fois
+                
+                // Décalage horizontal aléatoire (entre -100px et +100px)
+                const randomX = (Math.random() - 0.5) * 1000; 
+                
+                // On applique le mouvement
+                btn.style.transform = `translate(${randomX}px, ${verticalOffset}px)`;
+            }
+        }
+
+        function endGame() {
+            isGameOver = true;
+            btn.style.display = 'none'; // On cache le bouton fuyard
+            finalLink.style.display = 'flex'; // On affiche le gros bouton final
+            
+            subtitle.innerText = "Tu m'as eu ! Je suis à toi ❤️";
+            subtitle.style.color = "#FFD700";
+            
+            // Pluie de coeurs finale
+            createConfetti();
+        }
+
+        // --- ECOUTEURS D'EVENEMENTS ---
+        // 1. Survol souris (PC)
+        btn.addEventListener('mouseover', moveButton);
+        
+        // 2. Toucher écran (Mobile)
+        // On utilise 'touchstart' pour qu'il bouge AVANT que le doigt ne se relève (click)
+        btn.addEventListener('touchstart', moveButton);
+        
+        // 3. Click (Sécurité si jamais le touchstart rate)
+        btn.addEventListener('click', moveButton);
+
+
+        // --- SCROLL TRIGGER ---
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (scrollY > window.innerHeight * 0.7) {
+                document.getElementById('finalSection').classList.add('visible');
+            }
+        });
+
+        function createConfetti() {
+            for(let i=0; i<60; i++) {
+                const c = document.createElement('div');
+                c.innerText = "💖";
+                c.style.position = "fixed";
+                c.style.left = Math.random()*100+"vw";
+                c.style.top = "-10vh";
+                c.style.fontSize = "2rem";
+                c.style.zIndex = "1000";
+                c.style.transition = "top 4s ease-in, transform 4s linear";
+                document.body.appendChild(c);
+
+                setTimeout(() => {
+                    c.style.top = "110vh";
+                    c.style.transform = `rotate(${Math.random()*720}deg)`;
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>
